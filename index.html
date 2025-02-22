@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cipher Chase - Welcome</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+    </style>
+    <style>
+        :root {
+            --primary-color: #ff00f2;
+            --bg-dark: #0a0a0a;
+            --bg-medium: #1a1a1a;
+            --bg-light: #2a2a2a;
+            --text-color: #ffffff;
+            --border-radius: 15px;
+            --transition-speed: 0.5s;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-snap-type: y proximity;
+            overflow-y: none;
+        }
+
+        body {
+            font-family: "Archivo", serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            background-color: var(--bg-dark);
+            color: var(--text-color);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        section {
+            min-height: 100vh;
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: background-color var(--transition-speed);
+        }
+
+        .welcome-section {
+            background: linear-gradient(135deg, var(--bg-dark), #1d0920);
+        }
+
+        .welcome {
+            font-size: 4rem;
+            font-weight: 700;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .welcome strong {
+            color: var(--primary-color);
+            text-shadow: 0 0 10px rgba(255, 0, 242, 0.3);
+        }
+
+        .puzzle-section {
+            width: 100%;
+            background: linear-gradient(135deg, #1d0920, var(--bg-medium));
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .puzzle-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+        }
+
+        .rules-section {
+            background: linear-gradient(135deg, var(--bg-medium), #1d0920);
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .puzzle-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .puzzle-card {
+            background-color: var(--bg-light);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            transition: all var(--transition-speed);
+            border: 1px solid rgba(255, 0, 242, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .puzzle-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, transparent, rgba(255, 0, 242, 0.1));
+            opacity: 0;
+            transition: opacity var(--transition-speed);
+        }
+
+        .puzzle-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(255, 0, 242, 0.3);
+            box-shadow: 0 8px 25px rgba(255, 0, 242, 0.15);
+        }
+
+        .puzzle-card:hover::before {
+            opacity: 1;
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: all var(--transition-speed);
+            position: relative;
+        }
+
+        a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-color);
+            transition: width var(--transition-speed);
+        }
+
+        a:hover::after {
+            width: 100%;
+        }
+
+        .rules {
+            padding: 30px;
+            background-color: rgba(30, 28, 28, 0.8);
+            margin: 20px auto;
+            border-radius: var(--border-radius);
+            text-align: left;
+            /* min-width: 800px; */
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 0, 242, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .rules h2 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .rules ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+
+        .rules ul li {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .rules strong {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .navigation {
+            position: fixed;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border: 2px solid transparent;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+        }
+
+        .nav-dot:hover {
+            transform: scale(1.2);
+            background-color: rgba(255, 0, 242, 0.5);
+        }
+
+        .nav-dot.active {
+            background-color: var(--primary-color);
+            border-color: rgba(255, 0, 242, 0.3);
+            box-shadow: 0 0 10px rgba(255, 0, 242, 0.5);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Typography */
+        @media (max-width: 768px) {
+            .welcome {
+                font-size: 3rem;
+            }
+            
+            .puzzle-section h2,
+            .rules h2 {
+                font-size: 2rem;
+            }
+
+            .rules ul li {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .welcome {
+                font-size: 2.5rem;
+            }
+            
+            .puzzle-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navigation">
+        <div class="nav-dot active" data-section="welcome"></div>
+        <div class="nav-dot" data-section="rules"></div>
+    </div>
+
+    <section class="welcome-section" id="welcome">
+        <div class="welcome">Welcome to <strong>Cipher Chase</strong></div>
+    </section>
+
+
+    <section class="rules-section" id="rules">
+        <div class="rules">
+            <!-- Rules content remains the same -->
+            <h2>Rules:</h2>
+            <ul>
+                <li>
+                    <strong>Round 1:</strong>
+                    <ul>
+                        <li>Duration: 40 minutes</li>
+                        <li>Format: 3 sets of aptitude papers, 30 questions each</li>
+                        <li>Selection: 30 participants will be selected</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Round 2:</strong>
+                    <ul>
+                        <li>Duration: 1.5 hours</li>
+                        <li>Games:</li>
+                        <ol>
+                            <li>
+                                <strong>Jigsaw Puzzle:</strong>
+                                <ul>
+                                    <li>Solving the puzzle is required to progress but does not award points.</li>
+                                    <li>Penalty for skipping: -20 points</li>
+                                    <li>Format: Computer-based, one reroll allowed</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <strong>Crossword:</strong>
+                                <ul>
+                                    <li>20 words, 5 points each (100 points total)</li>
+                                    <li>Hints:</li>
+                                    <ul>
+                                        <li>-2 points for the 1st hint</li>
+                                        <li>-5 points for the 2nd hint</li>
+                                        <li>-7 points for the 3rd hint</li>
+                                    </ul>
+                                </ul>
+                            </li>
+                            <li>
+                                <strong>Word Arranging:</strong>
+                                <ul>
+                                    <li>Solving the puzzle: 15 points</li>
+                                    <li>10 words, 1 point each (10 points total)</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </li>
+                </ul>
+                </li>
+                <li>
+                    <strong>Bonus:</strong> Remaining time (in minutes) after submission will be added as bonus points.
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <script>
+        // Get all sections and navigation dots
+        const sections = document.querySelectorAll('section');
+        const navDots = document.querySelectorAll('.nav-dot');
+
+        // Update active dot based on current section
+        function updateActiveDot() {
+            const scrollPosition = window.scrollY;
+            
+            sections.forEach((section, index) => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.offsetHeight;
+                
+                if (scrollPosition >= sectionTop - sectionHeight / 3) {
+                    navDots.forEach(dot => dot.classList.remove('active'));
+                    navDots[index].classList.add('active');
+                }
+            });
+        }
+
+        // Add click event listeners to navigation dots
+        navDots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                sections[index].scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Update active dot on scroll
+        window.addEventListener('scroll', updateActiveDot);
+
+        // Initial update
+        updateActiveDot();
+    </script>
+</body>
+</html>
